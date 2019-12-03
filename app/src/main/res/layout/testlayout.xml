@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/fstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Primeiro Nome" />
+
+    <EditText
+        android:id="@+id/fstNameEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/scndName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Segundo Nome" />
+
+    <EditText
+        android:id="@+id/scndNameEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/idd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Idade" />
+
+    <EditText
+        android:id="@+id/iddEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/submitBtn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:foregroundGravity="bottom|center"
+        android:gravity="center"
+        android:onClick="testInsert"
+        android:text="Submit" />
+</LinearLayout>

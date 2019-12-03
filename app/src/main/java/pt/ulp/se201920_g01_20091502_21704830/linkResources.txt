@@ -1,0 +1,4 @@
+
+//SQLite DATABASE
+https://www.youtube.com/watch?v=kDZES1wtKUY
+https://developer.android.com/training/data-storage/sqlite
