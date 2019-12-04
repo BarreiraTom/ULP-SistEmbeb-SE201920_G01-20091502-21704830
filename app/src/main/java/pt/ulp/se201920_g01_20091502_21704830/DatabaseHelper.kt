@@ -16,7 +16,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                     "($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_NAME TEXT, $COLUMN_AGE TEXT, $COLUMN_EMAIL TEXT)"
         )
     }
-
+//TODO
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
 //        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
 //        onCreate(db)
