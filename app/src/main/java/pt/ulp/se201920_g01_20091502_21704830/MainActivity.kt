@@ -13,13 +13,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.testlayout)
     }
 
-    fun testInsert(view: View?){//TODO ERROR LINE !/Caused by: java.lang.ClassCastException: android.text.SpannableStringBuilder cannot be cast to java.lang.String
-        var fstName= findViewById<EditText>(R.id.fstNameEdit).text as String
-        var scndName= findViewById<EditText>(R.id.scndNameEdit).text as String
-        var Age= findViewById<EditText>(R.id.iddEdit).text as String
+    fun testInsert(view: View?){
+        var fstName= findViewById<EditText>(R.id.fstNameEdit).text
+        var scndName= findViewById<EditText>(R.id.scndNameEdit).text
+        var Age= findViewById<EditText>(R.id.iddEdit).text
 
-        Log.println(Log.ASSERT, "FstName", fstName)
-        Log.println(Log.ASSERT, "ScndName", scndName)
-        Log.println(Log.ASSERT, "Age", Age)
+        Log.println(Log.ASSERT, "FstName", "$fstName")
+        Log.println(Log.ASSERT, "ScndName", "$scndName")
+        Log.println(Log.ASSERT, "Age", "$Age")
     }
 }
