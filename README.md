@@ -37,6 +37,12 @@ Jorge Gonçalves, 20091502
 
 ![Image](https://i.imgur.com/0Q7yJ3Q.png)
 
+- Relativamente à navegação, a aplicação irá conter um menu do tipo drawer, o qual disponibilizará as opções de navegação todas, assim como a possibilidade de efetuar Logout.
+
+![Image](https://i.imgur.com/WfjRWwg.png)
+
+- Para a visualização de todos os dados relativos aos veiculos da empresa, estes seram apresentados num layout que só um utilizador terá acesso. **(a confirmar com o professor)**
+
 
 2. Dados Guardados
 
