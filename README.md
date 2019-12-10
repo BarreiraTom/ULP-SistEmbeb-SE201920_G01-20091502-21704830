@@ -7,6 +7,13 @@ João Tomás Barreira, 21704830
 Jorge Gonçalves, 20091502
 
 
+- Requisitos para 11-12-2019
+
+![Image](https://i.imgur.com/KKDO7v9.png)
+
+- Perante os requesitos apresentados, abaixo podemos ver o desenvolvimento de cada um deles.
+
+
 1. Planeamento do Layout dos Ecrãs da Aplicação
 
 
@@ -29,12 +36,13 @@ Jorge Gonçalves, 20091502
 ![Image](https://i.imgur.com/0Q7yJ3Q.png)
 
 
-
 2. Dados Guardados
 
 2.1. Base de dados
 
 - A Base de dados irá conter informações da empresa, informações e credenciais dos utilizadores, informações dos veículos e informações de tudo relacionado aos veículos: Abastecimentos, Viagens Realizadas, Manutenção Programada e referente Histórico e por fim uma lista de todos os seguros do Veículo até ao atual.
+-A baixo podemos ver a modelizaçãp planeada para a implementação deste projeto.
+![Image](https://i.imgur.com/dxpe8AP.png)
 
 
 2.2. Ficheiro de Preferências
