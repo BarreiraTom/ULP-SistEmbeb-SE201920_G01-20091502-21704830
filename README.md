@@ -9,9 +9,9 @@ Jorge Gonçalves, 20091502
 
 - Requisitos para 11-12-2019
 
-<img align="right" width="100" height="100" src="https://i.imgur.com/KKDO7v9.png">
-
-![Image](https://i.imgur.com/KKDO7v9.png)
+<p align="center">
+  <img width="400" src="https://i.imgur.com/KKDO7v9.png">
+</p>
 
 - Perante os requesitos apresentados, abaixo podemos ver o desenvolvimento de cada um deles.
 
