@@ -9,7 +9,7 @@ Jorge Gonçalves, 20091502
 
 - Requisitos para 11-12-2019
 
-<img scr="https://i.imgur.com/KKDO7v9.png" width="10">
+<img align="right" width="100" height="100" src="https://i.imgur.com/KKDO7v9.png">
 
 ![Image](https://i.imgur.com/KKDO7v9.png)
 
