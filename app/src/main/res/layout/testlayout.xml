@@ -51,6 +51,13 @@
         android:layout_gravity="bottom|center"
         android:foregroundGravity="bottom|center"
         android:gravity="center"
-        android:onClick="testInsert"
+        android:onClick="add"
         android:text="Submit" />
+
+    <Button
+        android:id="@+id/prntLst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="testgetLast"
+        android:text="Print last" />
 </LinearLayout>
