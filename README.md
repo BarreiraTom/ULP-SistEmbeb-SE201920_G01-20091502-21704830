@@ -1,5 +1,5 @@
 # Nome da Aplicação: Four Wheeler
-## Descrição da Aplicação
+## Descrição da Aplicação - Tema 1
 ### Sistemas Embebidos
 
 João Tomás Barreira, 21704830
@@ -41,7 +41,7 @@ Jorge Gonçalves, 20091502
 
 ![Image](https://i.imgur.com/WfjRWwg.png)
 
-- Para a visualização de todos os dados relativos aos veiculos da empresa, estes seram apresentados num layout que só um utilizador terá acesso. **(a confirmar com o professor)**
+- Para a visualização de todos os dados relativos aos veiculos da empresa, estes serão apresentados num layout que só um utilizador terá acesso. **(a confirmar com o professor)**
 
 
 2. Dados Guardados
@@ -49,7 +49,7 @@ Jorge Gonçalves, 20091502
 2.1. Base de dados
 
 - A Base de dados irá conter informações da empresa, informações e credenciais dos utilizadores, informações dos veículos e informações de tudo relacionado aos veículos: Abastecimentos, Viagens Realizadas, Manutenção Programada e referente Histórico e por fim uma lista de todos os seguros do Veículo até ao atual.
-- A baixo podemos ver a modelizaçãp planeada para a implementação deste projeto.
+- A baixo podemos ver a modelização planeada para a implementação deste projeto.
 
 ![Image](https://i.imgur.com/dxpe8AP.png)
 
