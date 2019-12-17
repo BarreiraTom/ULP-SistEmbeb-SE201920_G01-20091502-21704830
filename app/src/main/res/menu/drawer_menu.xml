@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single"
-        >
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/login"
             android:icon="@drawable/ic_profile"
@@ -15,8 +14,19 @@
             android:title="Home"></item>
         <item
             android:id="@+id/manutencao"
-            android:icon="@drawable/ic_profile"
+            android:icon="@drawable/ic_manutencao"
             android:title="Manutenção"></item>
+        <item
+            android:id="@+id/seguros"
+            android:icon="@drawable/ic_seguros"
+            android:title="Seguros"></item>
+        <item
+            android:id="@+id/abastecimentos"
+            android:icon="@drawable/ic_abastecimentos"
+            android:title="Abastecimentos"></item>
+        <item
+            android:id="@+id/viagens"
+            android:icon="@drawable/ic_viagens"
+            android:title="Viagens"></item>
     </group>
-
 </menu>

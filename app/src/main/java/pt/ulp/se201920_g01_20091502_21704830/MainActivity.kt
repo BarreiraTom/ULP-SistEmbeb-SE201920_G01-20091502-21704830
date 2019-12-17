@@ -17,9 +17,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.*
-import pt.ulp.se201920_g01_20091502_21704830.Fragment.HomeFragment
-import pt.ulp.se201920_g01_20091502_21704830.Fragment.LoginFragment
-import pt.ulp.se201920_g01_20091502_21704830.Fragment.ManutencaoFragment
+import pt.ulp.se201920_g01_20091502_21704830.Fragment.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     LoginFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener,
@@ -32,6 +30,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var loginFragment: LoginFragment
     lateinit var homeFragment: HomeFragment
     lateinit var manutencaoFragment: ManutencaoFragment
+    lateinit var reusableFragment: ReusableFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,8 +57,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         loginFragment = LoginFragment.newInstance()
         homeFragment = HomeFragment.newInstance("Parametro 1", "Parametro 2")
         manutencaoFragment = ManutencaoFragment.newInstance("Podemos passar valores por aqui", "")
+        reusableFragment = ReusableFragment.newInstance("", "")
 
-        supportFragmentManager.beginTransaction().replace(R.id.id_fragment_container, loginFragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.id_fragment_container, loginFragment)
+            .commit()
 
         navView.setNavigationItemSelectedListener(object :
                                                       NavigationView.OnNavigationItemSelectedListener {
@@ -80,8 +81,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             .replace(R.id.id_fragment_container, manutencaoFragment)
                             .addToBackStack(manutencaoFragment.toString())
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
-                        Toast.makeText(this@MainActivity, "Login clicked", Toast.LENGTH_SHORT)
-                            .show()
                         Toast.makeText(this@MainActivity, "Manutenção clicked", Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -90,8 +89,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             .replace(R.id.id_fragment_container, homeFragment)
                             .addToBackStack(homeFragment.toString())
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
-                        Toast.makeText(this@MainActivity, "Login clicked", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(this@MainActivity, "Home clicked", Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.viagens -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.id_fragment_container, reusableFragment)
+                            .addToBackStack(reusableFragment.toString())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
+                        Toast.makeText(this@MainActivity, "Home clicked", Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.abastecimentos -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.id_fragment_container, reusableFragment)
+                            .addToBackStack(reusableFragment.toString())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
+                        Toast.makeText(this@MainActivity, "Home clicked", Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.logout -> {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.id_fragment_container, reusableFragment)
+                            .addToBackStack(reusableFragment.toString())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit()
                         Toast.makeText(this@MainActivity, "Home clicked", Toast.LENGTH_SHORT).show()
                     }
                 }
