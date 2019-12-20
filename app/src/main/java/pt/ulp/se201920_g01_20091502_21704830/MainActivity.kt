@@ -35,6 +35,14 @@ class MainActivity : AppCompatActivity() {
 //    }
 //
     fun testgetLast(view: View?){
+
+        var vehicleNumber= findViewById<EditText>(R.id.editTextGet).text as Int
+        var cursor= dbHandler.getGeneralInfo(vehicleNumber)
+        var id= cursor?.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID))
+        var name= cursor?.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME))
+        var email= cursor?.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_EMAIL))
+        var age= cursor?.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_AGE))
+
         //var cursor= dbHandler.getLastRow()
         //cursor!!.moveToFirst()
 

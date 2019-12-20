@@ -14,17 +14,27 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     //Not TODO: CREATION OF TABLES
     //
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL( "CREATE TABLE Utilizador ( " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS Empresa(" +
+                "ID INTEGER PRIMARY KEY AUTO_INCREMENT," +
+                "USERNAME TEXT, " +
+                "PASSCODE TEXT " +
+                ");"
+        )
+        db.execSQL( "CREATE TABLE IF NOT EXISTS Utilizador ( " +
                 "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
                 "USERNAME TEXT UNIQUE, " +
                 "NOME TEXT, " +
                 "EMAIL TEXT, " +
-                "PASSCODE TEXT " +
-                ")"
+                "PASSCODE TEXT, " +
+                "EMPRESA_ID INTEGER, " +
+                "FOREIGN KEY (EMPRESA_ID) REFERENCES Empresa(ID) " +
+                "ON UPDATE RESTRICT " +
+                "ON DELETE RESTRICT " +
+                ");"
 //            "CREATE TABLE $TABLE_NAME " +
 //                    "($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_NAME TEXT, $COLUMN_AGE TEXT, $COLUMN_EMAIL TEXT)"
         )
-        db.execSQL("CREATE TABLE Veiculo ( " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS Veiculo ( " +
                 "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
                 "MATRICULA TEXT UNIQUE, " +
                 "MARCA TEXT, " +
@@ -33,9 +43,9 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 "FOREIGN KEY (ID) REFERENCES Utilizador(ID) " +
                 "ON UPDATE RESTRICT " +
                 "ON DELETE RESTRICT " +
-                ")"
+                ");"
         )
-        db.execSQL("CREATE TABLE Seguro ( " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS Seguro ( " +
                 "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
                 "NOME TEXT, " +
                 "DATA_INI DATE, " +
@@ -44,9 +54,9 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 "FOREIGN KEY (VEICULO_ID) REFERENCES Veiculo(ID) " +
                 "ON UPDATE RESTRICT " +
                 "ON DELETE RESTRICT " +
-                ")"
+                ");"
         )
-        db.execSQL("CREATE TABLE Manut_Prog ( " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS Manut_Prog ( " +
                 "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
                 "DATA_D DATE, " +
                 "DESCRICAO TEXT, " +
@@ -54,9 +64,9 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 "FOREIGN KEY (VEICULO_ID) REFERENCES Veiculo(ID) " +
                 "ON UPDATE RESTRICT " +
                 "ON DELETE RESTRICT " +
-                ")"
+                ");"
         )
-        db.execSQL("CREATE TABLE Viagem_Realizada ( " +
+        db.execSQL("CREATE TABLE IF NOT EXISTS Viagem_Realizada ( " +
                 "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
                 "LOCAL_INI TEXT, " +
                 "LOCAL_DEST TEXT, " +
@@ -65,16 +75,38 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 "FOREIGN KEY (VEICULO_ID) REFERENCES Veiculo(ID) " +
                 "ON UPDATE RESTRICT " +
                 "ON DELETE RESTRICT " +
-                ")"
+                ");"
         )
+        db.execSQL("CREATE TABLE IF NOT EXISTS Abast (" +
+                "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
+                "DATA_A DATE, " +
+                "LOCAL TEXT, " +
+                "QUANT FLOAT, " +
+                "VEICULO_ID INTEGER, " +
+                "FOREIGN KEY (VEICULO_ID) REFERENCES Veiculo(ID) " +
+                "ON UPDATE RESTRICT " +
+                "ON DELETE RESTRICT " +
+                ");"
+        )
+
+        //INSERT FIRST LINES IN DB
+        db.execSQL("INSERT INTO empresa(ID, USERNAME, PASSCODE) VALUES (12312, 'TransporTom', 'qwerty1');")
+        db.execSQL("INSERT INTO empresa(ID, USERNAME, PASSCODE) VALUES (12313, 'JorgExpeditions', 'qwerty2');")
+
+        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('tomas','tomas@teste.com','qwerty','12312');")
+        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('jorge','jorge@teste.net','123456789','12312');")
+        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('tiago','tiago@teste.vski','asdfg','12313');")
+        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('miguel','miguel@teste.brr','zxcvbnm','12313');")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        db.execSQL("DROP TABLE IF EXISTS Empresa")
         db.execSQL("DROP TABLE IF EXISTS Utilizador")
         db.execSQL("DROP TABLE IF EXISTS Veiculo")
         db.execSQL("DROP TABLE IF EXISTS Seguro")
         db.execSQL("DROP TABLE IF EXISTS Manut_Prog")
         db.execSQL("DROP TABLE IF EXISTS Viagem_Realizada")
+        db.execSQL("DROP TABLE IF EXISTS Abast")
 //        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         onCreate(db)
     }
