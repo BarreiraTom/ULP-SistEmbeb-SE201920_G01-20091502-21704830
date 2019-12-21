@@ -16,8 +16,7 @@ import com.google.android.material.navigation.NavigationView
 class MainActivity : AppCompatActivity(){
 
     lateinit var toolbar: androidx.appcompat.widget.Toolbar
-    lateinit var drawerLayout: DrawerLayout
-    lateinit var navView: NavigationView
+    private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
 
 
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity(){
         ////////////////////////////////////////////////////
 
         drawerLayout = findViewById(R.id.id_drawer)
-        navView = findViewById(R.id.id_nav_viewer)
+        val navView = findViewById<NavigationView>(R.id.id_nav_viewer)
 
 
         //var toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0)
