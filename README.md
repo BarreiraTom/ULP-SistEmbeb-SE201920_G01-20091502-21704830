@@ -1,4 +1,31 @@
 # Nome da Aplicação: Four Wheeler
+## Ponto de Situação
+
+**1. Objetivos Alcançado**
+
+- Layouts de Login e Painel de Controlo
+
+- Ligação com Base de Dados para Execução do LogIn e Visualização de informação no Painel de Controlo
+
+- Criado Ficheiro de preferencias onde são guardados(Atualmente) o Username, Password e ID do utilizador
+
+
+
+**2. Plano de desenvolvimento da aplicação**
+
+- Jorge Gonçalves desenvolveu o FrontEnd (Fragments da Aplicação e Layouts)
+
+- João Tomás Barreira desenvolveu o BackEnd (Base de Dados, Ficheiro de Preferência) e associou o FrontEnd com o BackEnd
+
+
+
+**3. Código desenvolvido até ao momento**
+
+- Criado no branch: ENTREGA02
+
+
+
+
 ## Descrição da Aplicação - Tema 1
 ### Sistemas Embebidos
 
