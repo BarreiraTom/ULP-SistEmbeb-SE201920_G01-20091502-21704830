@@ -45,9 +45,9 @@ class LoginActivity : AppCompatActivity() {
             intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }else if (log==0){  //LOGIN INCORRECT
-            Toast.makeText(this, "Login Incorrect", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Login Incorrect.", Toast.LENGTH_SHORT).show()
         }else{ //EMPTY CREDENTIALS
-            Toast.makeText(this, "Empty Credentials", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Empty Credentials.", Toast.LENGTH_SHORT).show()
         }
     }
 }
