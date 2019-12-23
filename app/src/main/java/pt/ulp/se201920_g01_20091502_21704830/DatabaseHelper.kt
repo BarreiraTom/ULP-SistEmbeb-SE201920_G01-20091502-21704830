@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Base64
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.isDigitsOnly
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
@@ -19,18 +20,15 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
     val PreferencesFile= PrefFileHelper()
 
-    //
-    //Not TODO: CREATION OF TABLES
-    //
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("CREATE TABLE IF NOT EXISTS Empresa(" +
-                "ID INTEGER PRIMARY KEY AUTO_INCREMENT," +
+                "ID INTEGER PRIMARY KEY," +
                 "USERNAME TEXT, " +
                 "PASSCODE TEXT " +
                 ");"
         )
         db.execSQL( "CREATE TABLE IF NOT EXISTS Utilizador ( " +
-                "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
+                "ID INTEGER PRIMARY KEY, " +
                 "USERNAME TEXT UNIQUE, " +
                 "NOME TEXT, " +
                 "EMAIL TEXT, " +
@@ -40,22 +38,21 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 "ON UPDATE RESTRICT " +
                 "ON DELETE RESTRICT " +
                 ");"
-//            "CREATE TABLE $TABLE_NAME " +
-//                    "($COLUMN_ID INTEGER PRIMARY KEY, $COLUMN_NAME TEXT, $COLUMN_AGE TEXT, $COLUMN_EMAIL TEXT)"
         )
         db.execSQL("CREATE TABLE IF NOT EXISTS Veiculo ( " +
-                "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
+                "ID INTEGER PRIMARY KEY, " +
+                "USERID INTEGER, " +
                 "MATRICULA TEXT UNIQUE, " +
                 "MARCA TEXT, " +
                 "MODELO TEXT, " +
                 "ANO INT, " +
-                "FOREIGN KEY (ID) REFERENCES Utilizador(ID) " +
+                "FOREIGN KEY (USERID) REFERENCES Utilizador(ID) " +
                 "ON UPDATE RESTRICT " +
                 "ON DELETE RESTRICT " +
                 ");"
         )
         db.execSQL("CREATE TABLE IF NOT EXISTS Seguro ( " +
-                "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
+                "ID INTEGER PRIMARY KEY, " +
                 "NOME TEXT, " +
                 "DATA_INI DATE, " +
                 "DATA_FIM DATE, " +
@@ -66,7 +63,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 ");"
         )
         db.execSQL("CREATE TABLE IF NOT EXISTS Manut_Prog ( " +
-                "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
+                "ID INTEGER PRIMARY KEY, " +
                 "DATA_D DATE, " +
                 "DESCRICAO TEXT, " +
                 "VEICULO_ID INTEGER, " +
@@ -76,7 +73,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 ");"
         )
         db.execSQL("CREATE TABLE IF NOT EXISTS Viagem_Realizada ( " +
-                "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
+                "ID INTEGER PRIMARY KEY, " +
                 "LOCAL_INI TEXT, " +
                 "LOCAL_DEST TEXT, " +
                 "DATA_D DATE, " +
@@ -87,7 +84,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 ");"
         )
         db.execSQL("CREATE TABLE IF NOT EXISTS Abast (" +
-                "ID INTEGER PRIMARY KEY AUTO_INCREMENT, " +
+                "ID INTEGER PRIMARY KEY, " +
                 "DATA_A DATE, " +
                 "LOCAL TEXT, " +
                 "QUANT FLOAT, " +
@@ -109,7 +106,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (1, 'ad-43-12', 'Monster Truck', 'BIG', 2020);")
         db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (3, 'as-98-sd', 'renault', 'Clio', 2004);")
-        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (2, '23-tg-43', 'Carricho de Choque', 'Smol', 1990);")
+        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (2, '23-tg-43', 'Carrinho de Choque', 'Smol', 1990);")
         db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (4, '90-sd-as', 'KIA', 'n sei', 2009);")
 
         db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('seguranz', '2010-10-20', '2019-12-31', 1);")
@@ -127,7 +124,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         db.execSQL("DROP TABLE IF EXISTS Manut_Prog")
         db.execSQL("DROP TABLE IF EXISTS Viagem_Realizada")
         db.execSQL("DROP TABLE IF EXISTS Abast")
-//        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+
         onCreate(db)
     }
 
@@ -167,23 +164,28 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 //        return String(decryptedByteValue)
 //    }
 
+
+
     fun logInApp(user: String, pass: String): Int{
         val db = this.readableDatabase
         var qry: Cursor
         if (user.isNotEmpty() and pass.isNotEmpty()){
-            if (user.isDigitsOnly()){
-                qry= db.rawQuery("SELECT * FROM empresa WHERE ID='$user' and PASSCODE='$pass'", null)
-            }else if(!user.isDigitsOnly()){ //TODO CHECK SYNTAX
-                qry= db.rawQuery("SELECT * FROM utilizador WHERE USERNAME='$user' and PASSCODE='$pass'", null)
-            }else{
-                qry=null as Cursor
-            }
 
+            qry= db.rawQuery("SELECT ID FROM utilizador WHERE USERNAME='$user' and PASSCODE='$pass'", null)
+            qry!!.moveToFirst()
+//            if (user.isDigitsOnly()){
+//                qry= db.rawQuery("SELECT * FROM empresa WHERE ID='$user' and PASSCODE='$pass'", null)
+//            }else if(!user.isDigitsOnly()){ //TODO CHECK SYNTAX
+//                qry= db.rawQuery("SELECT * FROM utilizador WHERE USERNAME='$user' and PASSCODE='$pass'", null)
+//            }else{
+//                qry=null as Cursor
+//            }
+            Log.println(Log.ASSERT,"Cursor",qry.toString())
             if(qry!=null && qry.getCount()>0){
-                var userId= qry?.getString(qry.getColumnIndex("ID"))
-                PreferencesFile.SaveLogInCreds(user,pass,userId)
+                var userId:String= qry?.getString(qry.getColumnIndex("ID"))!!
+                //PreferencesFile.SaveLogInCreds("tomas","qwerty","1")   TODO [ALTERADO PARA O LOGINACTIVITY]
                 qry.close()
-                return 1 // LOGIN SUCCESSFUL
+                return userId.toInt() // LOGIN SUCCESSFUL
             }else{
                 qry.close()
                 return 0 //LOGIN INCORRECT
@@ -193,14 +195,14 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         }
     }
 
-    fun generalInfo(): Cursor?{
+    fun generalInfo(userId:String): Cursor?{
         val db = this.readableDatabase
-        var userId = PreferencesFile.getID()
-        var qry = db.rawQuery("SELECT veiculo.MATRICULA, veiculo.MARCA, veiculo.MODELO, veiculo.ANO, seguro.NOME, seguro.DATA_FIM from veiculo " +
-                "LEFT JOIN utilizador ON utilizador.ID=veiculo.USERID " +
-                "LEFT JOIN seguro ON veiculo.ID=seguro.VEICULO_ID " +
-                "WHERE veiculo.USERID=$userId and " +
-                "seguro.ID=(SELECT max(seguro.ID) from seguro WHERE seguro.VEICULO_ID=(SELECT veiculo.ID FROM veiculo WHERE veiculo.USERID=$userId))",null)
+        //var userId = PreferencesFile.getID()
+        var qry = db.rawQuery("SELECT utilizador.NOME, utilizador.EMAIL, empresa.USERNAME, veiculo.MATRICULA, veiculo.MARCA, veiculo.MODELO, veiculo.ANO, seguro.NOME as NOME_SEG, seguro.DATA_FIM from veiculo " +
+                                      "LEFT JOIN utilizador ON utilizador.ID=veiculo.USERID " +
+                                      "LEFT JOIN empresa ON utilizador.EMPRESA_ID=empresa.ID " +
+                                      "LEFT JOIN seguro ON veiculo.ID=seguro.VEICULO_ID " +
+                                      "WHERE veiculo.USERID=$userId and seguro.ID=(SELECT max(seguro.ID) from seguro WHERE seguro.VEICULO_ID=(SELECT veiculo.ID FROM veiculo WHERE veiculo.USERID=$userId))",null)
 
         return qry
     }
@@ -244,8 +246,8 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 //    }
 
     companion object {
-        const val DATABASE_VERSION = 2
-        const val DATABASE_NAME = "frota_BD.db"
+        const val DATABASE_VERSION = 6
+        const val DATABASE_NAME = "frotaBD.db"
 
 //        const val TABLE_NAME = "users"
 //        const val COLUMN_ID = "id"

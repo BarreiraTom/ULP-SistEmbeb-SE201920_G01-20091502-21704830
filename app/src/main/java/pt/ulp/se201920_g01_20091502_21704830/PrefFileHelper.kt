@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 class PrefFileHelper : AppCompatActivity(){
 
-    val preferenceName:String= "ficheiroPreferences"
-    val DbHelper= DatabaseHelper(this, null)
+    val preferenceName:String= "GrupoIPreferences"
+
 
     fun SaveLogInCreds(user: String, pass:String, userId: String): String{
         var preferencias: SharedPreferences = getSharedPreferences(preferenceName, Context.MODE_PRIVATE)
@@ -23,6 +23,7 @@ class PrefFileHelper : AppCompatActivity(){
     }
 
     fun LoadLogInCreds(){
+        val DbHelper= DatabaseHelper(this, null)
         val preferences = getSharedPreferences(preferenceName,MODE_PRIVATE)
         var UserCreds = preferences.getString("Username", "")
         var PassCreds = preferences.getString("AccessToken", "")

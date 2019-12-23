@@ -69,8 +69,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:textSize="16dp"
-                android:text="Log out" />
+                android:onClick="LogOut_Act"
+                android:text="Log out"
+                android:textSize="16dp" />
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>
 
