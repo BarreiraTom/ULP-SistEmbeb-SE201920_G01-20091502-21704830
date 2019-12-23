@@ -2,13 +2,22 @@ package pt.ulp.se201920_g01_20091502_21704830
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.SharedPreferences
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Base64
 import android.util.Log
+import androidx.core.text.isDigitsOnly
+import javax.crypto.Cipher
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
+import kotlin.reflect.typeOf
 
 class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
+
+    val PreferencesFile= PrefFileHelper()
 
     //
     //Not TODO: CREATION OF TABLES
@@ -93,10 +102,21 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         db.execSQL("INSERT INTO empresa(ID, USERNAME, PASSCODE) VALUES (12312, 'TransporTom', 'qwerty1');")
         db.execSQL("INSERT INTO empresa(ID, USERNAME, PASSCODE) VALUES (12313, 'JorgExpeditions', 'qwerty2');")
 
-        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('tomas','tomas@teste.com','qwerty','12312');")
-        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('jorge','jorge@teste.net','123456789','12312');")
-        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('tiago','tiago@teste.vski','asdfg','12313');")
-        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('miguel','miguel@teste.brr','zxcvbnm','12313');")
+        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('tomas','Tomás Barreira','tomas@teste.com','qwerty',12312);")
+        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('jorge','Jorge Gonçalves','jorge@teste.net','123456789',12312);")
+        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('tiago','Tiago Santos','tiago@teste.vski','asdfg',12313);")
+        db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('miguel','Miguel Pinheiro','miguel@teste.brr','zxcvbnm',12313);")
+
+        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (1, 'ad-43-12', 'Monster Truck', 'BIG', 2020);")
+        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (3, 'as-98-sd', 'renault', 'Clio', 2004);")
+        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (2, '23-tg-43', 'Carricho de Choque', 'Smol', 1990);")
+        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (4, '90-sd-as', 'KIA', 'n sei', 2009);")
+
+        db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('seguranz', '2010-10-20', '2019-12-31', 1);")
+        db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('liberty', '2019-01-19', '2019-10-29', 2);")
+        db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('Mariachi', '2019-11-02', '2020-03-10', 3);")
+        db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('liberty', '2019-10-30', '2020-01-02', 2);")
+        db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('Marthavil', '2019-07-07', '2019-12-20', 4);")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -115,13 +135,74 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     //Not TODO: QUERIES
     //
 
-    fun getGeneralInfo(vehicle_ID: Int): Cursor?{
+//    fun String.encrypt(password: String): String {
+//        val secretKeySpec = SecretKeySpec(password.toByteArray(), "AES")
+//        val iv = ByteArray(16)
+//        val charArray = password.toCharArray()
+//        for (i in 0 until charArray.size){
+//            iv[i] = charArray[i].toByte()
+//        }
+//        val ivParameterSpec = IvParameterSpec(iv)
+//
+//        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+//        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec)
+//
+//        val encryptedValue = cipher.doFinal(this.toByteArray())
+//        return Base64.encodeToString(encryptedValue, Base64.DEFAULT)
+//    }
+//
+//    fun String.decrypt(password: String): String {
+//        val secretKeySpec = SecretKeySpec(password.toByteArray(), "AES")
+//        val iv = ByteArray(16)
+//        val charArray = password.toCharArray()
+//        for (i in 0 until charArray.size){
+//            iv[i] = charArray[i].toByte()
+//        }
+//        val ivParameterSpec = IvParameterSpec(iv)
+//
+//        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+//        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec)
+//
+//        val decryptedByteValue = cipher.doFinal(Base64.decode(this, Base64.DEFAULT))
+//        return String(decryptedByteValue)
+//    }
 
-        //Necessary VEIC: ANO, VEIC: MARCA - Modelo, SEGURO: NOME - DATA_VAL
+    fun logInApp(user: String, pass: String): Int{
         val db = this.readableDatabase
-        var query= db.rawQuery("SELECT veiculo.MATRICULA, veiculo.MARCA, veiculo.MODELO, veiculo.ANO from veiculo WHERE veiculo.ID=$vehicle_ID", null)
-        //query= db.rawQuery("SELECT seguro.NOME, seguro.DATA_FIM from seguro WHERE seguro.ID=(SELECT max(seguro.ID) from seguro WHERE seguro.VEICULO_ID=$vehicle_ID)",null)
-        return query
+        var qry: Cursor
+        if (user.isNotEmpty() and pass.isNotEmpty()){
+            if (user.isDigitsOnly()){
+                qry= db.rawQuery("SELECT * FROM empresa WHERE ID='$user' and PASSCODE='$pass'", null)
+            }else if(!user.isDigitsOnly()){ //TODO CHECK SYNTAX
+                qry= db.rawQuery("SELECT * FROM utilizador WHERE USERNAME='$user' and PASSCODE='$pass'", null)
+            }else{
+                qry=null as Cursor
+            }
+
+            if(qry!=null && qry.getCount()>0){
+                var userId= qry?.getString(qry.getColumnIndex("ID"))
+                PreferencesFile.SaveLogInCreds(user,pass,userId)
+                qry.close()
+                return 1 // LOGIN SUCCESSFUL
+            }else{
+                qry.close()
+                return 0 //LOGIN INCORRECT
+            }
+        }else{
+            return -1 //LOGIN INPUTS EMPTY
+        }
+    }
+
+    fun generalInfo(): Cursor?{
+        val db = this.readableDatabase
+        var userId = PreferencesFile.getID()
+        var qry = db.rawQuery("SELECT veiculo.MATRICULA, veiculo.MARCA, veiculo.MODELO, veiculo.ANO, seguro.NOME, seguro.DATA_FIM from veiculo " +
+                "LEFT JOIN utilizador ON utilizador.ID=veiculo.USERID " +
+                "LEFT JOIN seguro ON veiculo.ID=seguro.VEICULO_ID " +
+                "WHERE veiculo.USERID=$userId and " +
+                "seguro.ID=(SELECT max(seguro.ID) from seguro WHERE seguro.VEICULO_ID=(SELECT veiculo.ID FROM veiculo WHERE veiculo.USERID=$userId))",null)
+
+        return qry
     }
 
 //    fun insertRow(name: String, age:String, email: String) {
@@ -163,7 +244,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 //    }
 
     companion object {
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 2
         const val DATABASE_NAME = "frota_BD.db"
 
 //        const val TABLE_NAME = "users"
