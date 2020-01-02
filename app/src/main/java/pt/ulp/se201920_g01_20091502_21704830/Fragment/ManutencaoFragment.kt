@@ -5,10 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.*
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.activity_inserir_manut.*
 import pt.ulp.se201920_g01_20091502_21704830.InserirManutActivity
 import pt.ulp.se201920_g01_20091502_21704830.R
 

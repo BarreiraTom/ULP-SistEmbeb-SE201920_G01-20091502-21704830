@@ -21,4 +21,17 @@
         android:name="pt.ulp.se201920_g01_20091502_21704830.Fragment.ManutencaoFragment"
         android:label="Lista Manutenções"
         tools:layout="@layout/fragment_manutencao" />
+    <fragment
+        android:id="@+id/nav_seguros"
+        android:name="pt.ulp.se201920_g01_20091502_21704830.Fragment.SegurosFragment"
+        android:label="Lista seguro"
+        tools:layout="@layout/fragment_seguros" />
+    <fragment
+        android:id="@+id/nav_abastecimentos"
+        android:name="pt.ulp.se201920_g01_20091502_21704830.Fragment.AbastecimentosFragment"
+        android:label="Lista Abastecimentos" />
+    <fragment
+        android:id="@+id/nav_viagens"
+        android:name="pt.ulp.se201920_g01_20091502_21704830.Fragment.ViagensFragment"
+        android:label="Lista viagens" />
 </navigation>
