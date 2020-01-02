@@ -9,11 +9,13 @@
         android:id="@+id/nav_home"
         android:name="pt.ulp.se201920_g01_20091502_21704830.Fragment.HomeFragment"
         android:label="Four Wheeler"
+
         tools:layout="@layout/fragment_home" >
         <argument
             android:name="userID"
             app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/nav_manutencao"
         android:name="pt.ulp.se201920_g01_20091502_21704830.Fragment.ManutencaoFragment"

@@ -3,3 +3,5 @@
 https://www.youtube.com/watch?v=kDZES1wtKUY
 https://developer.android.com/training/data-storage/sqlite
 https://www.youtube.com/watch?v=2xGwbstHwrA&t=962s
+https://www.androdocs.com/kotlin/save-data-using-sqlite-database-in-android.html
+https://www.sqlitetutorial.net/sqlite-foreign-key/
