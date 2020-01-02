@@ -61,9 +61,8 @@ class HomeFragment : Fragment() {
         view.findViewById<TextView>(R.id.Matricula_Vaic).text=qry?.getString(qry.getColumnIndex("MATRICULA"))!!
         view.findViewById<TextView>(R.id.Ano_Veic).text=qry?.getString(qry.getColumnIndex("ANO"))!!
         view.findViewById<TextView>(R.id.Modelo_Veic).text=qry?.getString(qry.getColumnIndex("MODELO"))!!
+        view.findViewById<TextView>(R.id.Seguro_Veic).text="${qry?.getString(qry.getColumnIndex("DATA_FIM"))!!} - ${qry?.getString(qry.getColumnIndex("NOME_SEG"))!!}"
 
         return view
     }
-
-
 }
