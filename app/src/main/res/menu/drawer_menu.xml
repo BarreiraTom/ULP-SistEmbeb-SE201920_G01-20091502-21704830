@@ -13,15 +13,15 @@
             android:icon="@drawable/ic_manutencao"
             android:title="Manutenção"></item>
         <item
-            android:id="@+id/seguros"
+            android:id="@+id/nav_seguros"
             android:icon="@drawable/ic_seguros"
             android:title="Seguros"></item>
         <item
-            android:id="@+id/abastecimentos"
+            android:id="@+id/nav_abastecimentos"
             android:icon="@drawable/ic_abastecimentos"
             android:title="Abastecimentos"></item>
         <item
-            android:id="@+id/viagens"
+            android:id="@+id/nav_viagens"
             android:icon="@drawable/ic_viagens"
             android:title="Viagens"></item>
     </group>
