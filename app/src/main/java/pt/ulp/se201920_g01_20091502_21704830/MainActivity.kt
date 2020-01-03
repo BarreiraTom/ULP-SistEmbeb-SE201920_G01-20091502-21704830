@@ -2,7 +2,9 @@ package pt.ulp.se201920_g01_20091502_21704830
 
 
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -91,7 +93,20 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun LogOut_Act(view:View?){
-        if(PrefFileHelper().EffectLogOut()=="OK"){
+
+        var preferencias: SharedPreferences = getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
+        var editorPrefs: SharedPreferences.Editor= preferencias.edit()
+        var result=""
+        editorPrefs.remove("Username")
+        editorPrefs.remove("AccessToken")
+        editorPrefs.remove("ID")
+        if (editorPrefs.commit()){
+            result= "OK"
+        }else{
+            result= "Error"
+        }
+
+        if(result=="OK"){
             intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }else{

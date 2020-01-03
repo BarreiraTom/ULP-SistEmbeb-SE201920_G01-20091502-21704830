@@ -1,14 +1,17 @@
 package pt.ulp.se201920_g01_20091502_21704830.Fragment
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.*
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_inserir_manut.*
+import pt.ulp.se201920_g01_20091502_21704830.DatabaseHelper
 import pt.ulp.se201920_g01_20091502_21704830.InserirManutActivity
 import pt.ulp.se201920_g01_20091502_21704830.R
 
@@ -42,6 +45,12 @@ class ManutencaoFragment : Fragment() {
         val viewF: View = inflater.inflate(R.layout.fragment_manutencao, container, false)
 
         (activity as AppCompatActivity?)!!.supportActionBar!!.setTitle("Lista Manutenções")
+
+        var preferences = this.activity!!.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
+        var qry= DatabaseHelper(this.activity!!, null).getSegGen(preferences.getString("ID", "").toString())
+        do{
+            Log.println(Log.ASSERT, "qry Array", qry?.getString(qry.getColumnIndex("DATA_FIM"))!!)
+        }while(qry!!.moveToNext())
 
         val fab: FloatingActionButton = viewF.findViewById(R.id.fab)
         fab.setOnClickListener { view ->

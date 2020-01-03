@@ -21,6 +21,26 @@ class LoginActivity : AppCompatActivity() {
 
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                         WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        val dbHandler= DatabaseHelper(this,null)
+
+        var preferences = getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
+        var usr= preferences.getString("Username", "").toString()
+        var pass= preferences.getString("AccessToken", "").toString()
+
+        if(usr!="" && pass!=""){
+            var log= dbHandler.logInApp(usr,pass)
+
+            if(log>=1){             //AUTO LOGIN SUCCESSFUL
+                Toast.makeText(this, "Auto Login Successful", Toast.LENGTH_SHORT).show()
+                intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }else if(log==0){       //AUTO LOGIN UNSUCCESSFUL
+                Toast.makeText(this, "Auto Login Unsuccessful", Toast.LENGTH_SHORT).show()
+            }else{                  //AUTO LOGIN NOT FOUND
+                Toast.makeText(this, "Auto Login Credentials\nwere not found", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun makeLogin(view: View) {
@@ -45,9 +65,9 @@ class LoginActivity : AppCompatActivity() {
             intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }else if (log==0){  //LOGIN INCORRECT
-            Toast.makeText(this, "Login Incorrect.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Login Incorrect", Toast.LENGTH_SHORT).show()
         }else{ //EMPTY CREDENTIALS
-            Toast.makeText(this, "Empty Credentials.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Empty Credentials", Toast.LENGTH_SHORT).show()
         }
     }
 }

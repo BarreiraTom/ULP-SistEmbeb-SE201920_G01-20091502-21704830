@@ -48,11 +48,10 @@ class HomeFragment : Fragment() {
 
         val view:View = inflater.inflate(R.layout.fragment_home, container, false)
 
-        var preferences = this.activity!!.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE);
+        var preferences = this.activity!!.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
         Log.println(Log.ASSERT,"userID",preferences.getString("ID", "").toString())
 
         var qry= DatabaseHelper(this.activity!!, null).generalInfo(preferences.getString("ID", "").toString())
-        qry!!.moveToFirst()
 
         view.findViewById<TextView>(R.id.User_Name).text=qry?.getString(qry.getColumnIndex("NOME"))!!
         view.findViewById<TextView>(R.id.User_Email).text=qry?.getString(qry.getColumnIndex("EMAIL"))!!

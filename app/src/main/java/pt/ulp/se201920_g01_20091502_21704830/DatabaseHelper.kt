@@ -64,6 +64,8 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         )
         db.execSQL("CREATE TABLE IF NOT EXISTS Manut_Prog ( " +
                 "ID INTEGER PRIMARY KEY, " +
+                "NOME_MEC TEXT, " +
+                "TIPO_REPAR TEXT, " +
                 "DATA_D DATE, " +
                 "DESCRICAO TEXT, " +
                 "VEICULO_ID INTEGER, " +
@@ -88,6 +90,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 "DATA_A DATE, " +
                 "LOCAL TEXT, " +
                 "QUANT FLOAT, " +
+                "VALOR_GAST FLOAT, " +
                 "VEICULO_ID INTEGER, " +
                 "FOREIGN KEY (VEICULO_ID) REFERENCES Veiculo(ID) " +
                 "ON UPDATE RESTRICT " +
@@ -117,13 +120,13 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS Empresa")
-        db.execSQL("DROP TABLE IF EXISTS Utilizador")
-        db.execSQL("DROP TABLE IF EXISTS Veiculo")
         db.execSQL("DROP TABLE IF EXISTS Seguro")
         db.execSQL("DROP TABLE IF EXISTS Manut_Prog")
         db.execSQL("DROP TABLE IF EXISTS Viagem_Realizada")
         db.execSQL("DROP TABLE IF EXISTS Abast")
+        db.execSQL("DROP TABLE IF EXISTS Veiculo")
+        db.execSQL("DROP TABLE IF EXISTS Utilizador")
+        db.execSQL("DROP TABLE IF EXISTS Empresa")
 
         onCreate(db)
     }
@@ -172,7 +175,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         if (user.isNotEmpty() and pass.isNotEmpty()){
 
             qry= db.rawQuery("SELECT ID FROM utilizador WHERE USERNAME='$user' and PASSCODE='$pass'", null)
-            qry!!.moveToFirst()
+
 //            if (user.isDigitsOnly()){
 //                qry= db.rawQuery("SELECT * FROM empresa WHERE ID='$user' and PASSCODE='$pass'", null)
 //            }else if(!user.isDigitsOnly()){ //TODO CHECK SYNTAX
@@ -180,7 +183,9 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 //            }else{
 //                qry=null as Cursor
 //            }
+            qry!!.moveToFirst()
             Log.println(Log.ASSERT,"Cursor",qry.toString())
+
             if(qry!=null && qry.getCount()>0){
                 var userId:String= qry?.getString(qry.getColumnIndex("ID"))!!
                 //PreferencesFile.SaveLogInCreds("tomas","qwerty","1")   TODO [ALTERADO PARA O LOGINACTIVITY]
@@ -203,9 +208,43 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                                       "LEFT JOIN empresa ON utilizador.EMPRESA_ID=empresa.ID " +
                                       "LEFT JOIN seguro ON veiculo.ID=seguro.VEICULO_ID " +
                                       "WHERE veiculo.USERID=$userId and seguro.ID=(SELECT max(seguro.ID) from seguro WHERE seguro.VEICULO_ID=(SELECT veiculo.ID FROM veiculo WHERE veiculo.USERID=$userId))",null)
-
+        qry!!.moveToFirst()
         return qry
     }
+
+
+    fun getManutGen(userId: String): Cursor?{
+        val db= this.readableDatabase
+        var qry = db.rawQuery("SELECT manut_prog.ID, manut_prog.NOME_MEC, manut_prog.TIPO_REPAR, manut_prog.DATA_D, manut_prog.DESCRICAO, manut_prog.VEICULO_ID FROM manut_prog, veiculo " +
+                                      "WHERE manut_prog.VEICULO_ID=veiculo.ID AND veiculo.USERID=$userId",null)
+        qry!!.moveToFirst()
+        return qry
+    }
+
+    fun getSegGen(userId: String): Cursor?{
+        val db= this.readableDatabase
+        var qry = db.rawQuery("SELECT seguro.ID, seguro.NOME, seguro.DATA_INI, seguro.DATA_FIM, seguro.VEICULO_ID FROM seguro, veiculo " +
+                                      "WHERE seguro.VEICULO_ID=veiculo.ID AND veiculo.USERID=$userId",null)
+        qry!!.moveToFirst()
+        return qry
+    }
+
+    fun getAbastGen(userId: String): Cursor?{
+        val db= this.readableDatabase
+        var qry = db.rawQuery("SELECT abast.ID, abast.DATA_A, abast.LOCAL, abast.QUANT, abast.VALOR_GAST, abast.VEICULO_ID FROM abast, veiculo " +
+                                      "WHERE abast.VEICULO_ID=veiculo.ID AND veiculo.USERID=$userId",null)
+        qry!!.moveToFirst()
+        return qry
+    }
+
+    fun getViagGen(userId: String): Cursor?{
+        val db= this.readableDatabase
+        var qry = db.rawQuery("SELECT viagem_realizada.ID, viagem_realizada.LOCAL_INI, viagem_realizada.LOCAL_DEST, viagem_realizada.DATA_D, viagem_realizada.VEICULO_ID FROM viagem_realizada, veiculo " +
+                                      "WHERE viagem_realizada.VEICULO_ID=veiculo.ID AND veiculo.USERID=$userId",null)
+        qry!!.moveToFirst()
+        return qry
+    }
+
 
 //    fun insertRow(name: String, age:String, email: String) {
 //        val values = ContentValues()
@@ -246,7 +285,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 //    }
 
     companion object {
-        const val DATABASE_VERSION = 6
+        const val DATABASE_VERSION = 7
         const val DATABASE_NAME = "frotaBD.db"
     }
 }
