@@ -46,7 +46,8 @@ class InserirViagensActivity : AppCompatActivity() {
                                                                findViewById<EditText>(R.id.ins_viag_origem).text.toString(),
                                                                findViewById<EditText>(R.id.ins_viag_dest).text.toString(),
                                                                findViewById<EditText>(R.id.ins_viag_data).text.toString())
-            val intent = Intent(this, ViagensFragment::class.java)
+            Toast.makeText(this, "Dados Inseridos", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }else{
             Toast.makeText(this, "Preencha todos os espaços", Toast.LENGTH_SHORT).show()

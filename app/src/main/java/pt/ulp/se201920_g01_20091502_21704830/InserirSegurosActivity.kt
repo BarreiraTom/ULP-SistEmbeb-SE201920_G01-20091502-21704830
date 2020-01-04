@@ -46,7 +46,8 @@ class InserirSegurosActivity : AppCompatActivity() {
                                                                findViewById<EditText>(R.id.ins_segur_nome).text.toString(),
                                                                findViewById<EditText>(R.id.ins_segur_dataini).text.toString(),
                                                                findViewById<EditText>(R.id.ins_segur_datafim).text.toString())
-            val intent = Intent(this, SegurosFragment::class.java)
+            Toast.makeText(this, "Dados Inseridos", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }else{
             Toast.makeText(this, "Preencha todos os espaços", Toast.LENGTH_SHORT).show()

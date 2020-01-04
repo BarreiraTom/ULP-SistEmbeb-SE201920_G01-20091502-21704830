@@ -47,7 +47,8 @@ class InserirManutActivity : AppCompatActivity() {
                                                                findViewById<EditText>(R.id.ins_manut_tiporep).text.toString(),
                                                                findViewById<EditText>(R.id.ins_manut_data).text.toString(),
                                                                findViewById<EditText>(R.id.ins_manut_obs).text.toString())
-            val intent = Intent(this, ManutencaoFragment::class.java)
+            Toast.makeText(this, "Dados Inseridos", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }else{
             Toast.makeText(this, "Preencha todos os espaços", Toast.LENGTH_SHORT).show()

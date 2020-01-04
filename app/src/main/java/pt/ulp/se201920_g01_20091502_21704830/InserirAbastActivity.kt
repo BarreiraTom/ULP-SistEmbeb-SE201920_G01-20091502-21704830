@@ -54,7 +54,8 @@ class InserirAbastActivity : AppCompatActivity() {
                                                                findViewById<EditText>(R.id.ins_abast_local).text.toString(),
                                                                findViewById<EditText>(R.id.ins_abast_quant).text.toString(),
                                                                findViewById<EditText>(R.id.ins_abast_val_gast).text.toString())
-            val intent = Intent(baseContext, AbastecimentosFragment::class.java)
+            Toast.makeText(this, "Dados Inseridos", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }else{
             Toast.makeText(this, "Preencha todos os espaços", Toast.LENGTH_SHORT).show()
