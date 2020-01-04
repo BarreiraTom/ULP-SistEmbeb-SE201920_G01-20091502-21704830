@@ -6,7 +6,14 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.fragment_abastecimentos.*
+import kotlinx.android.synthetic.main.fragment_manutencao.*
+import pt.ulp.se201920_g01_20091502_21704830.Adapters.adapter_abast
+import pt.ulp.se201920_g01_20091502_21704830.Adapters.adapter_manutencao
+import pt.ulp.se201920_g01_20091502_21704830.Dataclasses.dataclass_abast
+import pt.ulp.se201920_g01_20091502_21704830.Dataclasses.dataclass_manutencao
 import pt.ulp.se201920_g01_20091502_21704830.InserirManutActivity
 import pt.ulp.se201920_g01_20091502_21704830.R
 
@@ -50,5 +57,16 @@ class ManutencaoFragment : Fragment() {
         }
         // Inflate the layout for this fragment
         return viewF
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+
+        val manutencoes = listOf(dataclass_manutencao("Carlos Silva Lda.", "Troca da porta", "08-09-2016", "Substituição da porta por colisão com outro veiculo."),
+                                 dataclass_manutencao("Zé mecânico", "Troca de óleo", "16-04-2019", "Manutenção preventiva"))
+
+        recycler_view_manutencao.layoutManager = LinearLayoutManager(activity)
+        recycler_view_manutencao.adapter = adapter_manutencao(manutencoes)
+
+        super.onActivityCreated(savedInstanceState)
     }
 }
