@@ -1,11 +1,14 @@
 package pt.ulp.se201920_g01_20091502_21704830
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.WindowManager
+import android.view.*
+import android.widget.EditText
+import android.widget.Toast
+import pt.ulp.se201920_g01_20091502_21704830.Fragment.AbastecimentosFragment
+import pt.ulp.se201920_g01_20091502_21704830.Fragment.SegurosFragment
 
 class InserirSegurosActivity : AppCompatActivity() {
 
@@ -34,6 +37,21 @@ class InserirSegurosActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun insertSegurData(view: View?){
+        var preferences = this.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
+        if(findViewById<EditText>(R.id.ins_segur_nome).text.toString()!="" && findViewById<EditText>(R.id.ins_segur_dataini).text.toString()!="" && findViewById<EditText>(R.id.ins_segur_datafim).text.toString()!=""){
+            var sentData= DatabaseHelper(this,null).insrtSegur(preferences.getString("ID", "").toString(),
+                                                               findViewById<EditText>(R.id.ins_segur_nome).text.toString(),
+                                                               findViewById<EditText>(R.id.ins_segur_dataini).text.toString(),
+                                                               findViewById<EditText>(R.id.ins_segur_datafim).text.toString())
+            val intent = Intent(this, SegurosFragment::class.java)
+            startActivity(intent)
+        }else{
+            Toast.makeText(this, "Preencha todos os espaços", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
 }

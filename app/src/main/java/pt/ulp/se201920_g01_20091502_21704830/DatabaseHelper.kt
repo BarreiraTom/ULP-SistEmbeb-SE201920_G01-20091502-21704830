@@ -280,44 +280,41 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         db.close()
     }
 
+    fun insrtSegur(userId: String, nome_segur: String, data_ini: String, data_fim: String){
+        val db= this.readableDatabase
+        var qry= db.rawQuery("SELECT veiculo.ID FROM veiculo WHERE veiculo.USERID=$userId",null)
+        qry!!.moveToFirst()
 
-//    fun insertRow(name: String, age:String, email: String) {
-//        val values = ContentValues()
-//        values.put(COLUMN_NAME, name)
-//        values.put(COLUMN_AGE, age)
-//        values.put(COLUMN_EMAIL, email)
-//
-//        val db = this.writableDatabase
-//        db.insert(TABLE_NAME, null, values)
-//        db.close()
-//    }
-//
-//    fun updateRow(row_id: String, name: String, age:String, email: String) {
-//        val values = ContentValues()
-//        values.put(COLUMN_NAME, name)
-//        values.put(COLUMN_AGE, age)
-//        values.put(COLUMN_EMAIL, email)
-//
-//        val db = this.writableDatabase
-//        db.update(TABLE_NAME, values, "$COLUMN_ID = ?", arrayOf(row_id))
-//        db.close()
-//    }
-//
-//    fun deleteRow(row_id: String) {
-//        val db = this.writableDatabase
-//        db.delete(TABLE_NAME, "$COLUMN_ID = ?", arrayOf(row_id))
-//        db.close()
-//    }
-//
-//    fun getAllRow(): Cursor? {
-//        val db = this.readableDatabase
-//        return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
-//    }
-//
-//    fun getLastRow(): Cursor? {
-//        val db = this.readableDatabase
-//        return db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=(SELECT max($COLUMN_ID) FROM $TABLE_NAME)", null)
-//    }
+        var veicID=qry?.getString(qry.getColumnIndex("ID"))!!
+
+        val values = ContentValues()
+        values.put("VEICULO_ID",veicID)
+        values.put("NOME",nome_segur)
+        values.put("DATA_INI",data_ini)
+        values.put("DATA_FIM",data_fim)
+        var result= db.insert("seguro", null, values)
+        Log.println(Log.ASSERT, "resultInsert","$result")
+        db.close()
+    }
+
+    fun insrtManut(userId:String, nome_mec:String, tipo_repar:String, data:String, desc:String){
+        val db= this.readableDatabase
+        var qry= db.rawQuery("SELECT veiculo.ID FROM veiculo WHERE veiculo.USERID=$userId",null)
+        qry!!.moveToFirst()
+
+        var veicID=qry?.getString(qry.getColumnIndex("ID"))!!
+
+        val values = ContentValues()
+        values.put("VEICULO_ID",veicID)
+        values.put("NOME_MEC",nome_mec)
+        values.put("TIPO_REPAR",tipo_repar)
+        values.put("DATA_D",data)
+        values.put("DESCRICAO",desc)
+        var result= db.insert("manut_prog", null, values)
+        Log.println(Log.ASSERT, "resultInsert","$result")
+        db.close()
+    }
+
 
     companion object {
         const val DATABASE_VERSION = 7

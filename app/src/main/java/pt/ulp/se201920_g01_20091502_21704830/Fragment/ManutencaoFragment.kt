@@ -8,9 +8,16 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_inserir_manut.*
 import pt.ulp.se201920_g01_20091502_21704830.DatabaseHelper
+import kotlinx.android.synthetic.main.fragment_abastecimentos.*
+import kotlinx.android.synthetic.main.fragment_manutencao.*
+import pt.ulp.se201920_g01_20091502_21704830.Adapters.adapter_abast
+import pt.ulp.se201920_g01_20091502_21704830.Adapters.adapter_manutencao
+import pt.ulp.se201920_g01_20091502_21704830.Dataclasses.dataclass_abast
+import pt.ulp.se201920_g01_20091502_21704830.Dataclasses.dataclass_manutencao
 import pt.ulp.se201920_g01_20091502_21704830.InserirManutActivity
 import pt.ulp.se201920_g01_20091502_21704830.R
 
@@ -45,22 +52,31 @@ class ManutencaoFragment : Fragment() {
 
         (activity as AppCompatActivity?)!!.supportActionBar!!.setTitle("Lista Manutenções")
 
-        var preferences = this.activity!!.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
-        var qry= DatabaseHelper(this.activity!!, null).getManutGen(preferences.getString("ID", "").toString())
-        if (qry!=null && qry.getCount()>0){
-            do{
-                Log.println(Log.ASSERT, "qry Array", qry?.getString(qry.getColumnIndex("DATA_D"))!!)
-            }while(qry!!.moveToNext())
-        }
-
         val fab: FloatingActionButton = viewF.findViewById(R.id.fab)
         fab.setOnClickListener { view ->
                 val intent = Intent(context, InserirManutActivity::class.java)
                 startActivity(intent)
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
         }
         // Inflate the layout for this fragment
         return viewF
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        var manutencoes= emptyList<dataclass_manutencao>()
+        var preferences = this.activity!!.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
+        var qry= DatabaseHelper(this.activity!!, null).getManutGen(preferences.getString("ID", "").toString())
+        if (qry!=null && qry.getCount()>0){
+            do{
+                manutencoes+= listOf(dataclass_manutencao(qry?.getString(qry.getColumnIndex("NOME_MEC"))!!,
+                                                               qry?.getString(qry.getColumnIndex("TIPO_REPAR"))!!,
+                                                               qry?.getString(qry.getColumnIndex("DATA_D"))!!,
+                                                               qry?.getString(qry.getColumnIndex("DESCRICAO"))!!))
+            }while(qry!!.moveToNext())
+
+            recycler_view_manutencao.layoutManager = LinearLayoutManager(activity)
+            recycler_view_manutencao.adapter = adapter_manutencao(manutencoes)
+        }
+
+        super.onActivityCreated(savedInstanceState)
     }
 }

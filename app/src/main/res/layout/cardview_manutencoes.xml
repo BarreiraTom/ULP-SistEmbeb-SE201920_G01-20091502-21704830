@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -16,97 +15,105 @@
         app:cardMaxElevation="0dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
-        app:contentPadding="8dp"
-        app:contentPaddingBottom="0dp">
+        app:contentPadding="8dp">
 
         <LinearLayout
-            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarInsesirMan">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/textView10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Origem: "
+                    android:text="Mecânico: "
                     android:textAlignment="textEnd"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:layout_conversion_absoluteHeight="140dp"
-                    tools:layout_conversion_absoluteWidth="0dp"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="344dp" />
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/cardview_viagem_origem"
+                    android:id="@+id/cardview_manut_mecanico"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:textSize="16sp" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/textView14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Destino: "
+                    android:text="Reparacão: "
                     android:textAlignment="textEnd"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:layout_conversion_absoluteHeight="140dp"
-                    tools:layout_conversion_absoluteWidth="0dp"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="344dp" />
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/cardview_viagem_destino"
+                    android:id="@+id/cardview_manut_reparacao"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:textSize="16sp" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/textView17"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Data: "
                     android:textAlignment="textEnd"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:layout_conversion_absoluteHeight="140dp"
-                    tools:layout_conversion_absoluteWidth="0dp"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="344dp" />
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/cardview_viagem_data"
+                    android:id="@+id/cardview_manut_data"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:textSize="16sp" />
-
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Observações: "
+                    android:textAlignment="textEnd"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/cardview_manut_observacoes"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="3"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

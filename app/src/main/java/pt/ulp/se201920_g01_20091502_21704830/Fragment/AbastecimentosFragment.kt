@@ -25,10 +25,6 @@ import pt.ulp.se201920_g01_20091502_21704830.R
  */
 class AbastecimentosFragment : Fragment() {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val viewF: View = inflater.inflate(R.layout.fragment_abastecimentos, container, false)

@@ -11,6 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import pt.ulp.se201920_g01_20091502_21704830.DatabaseHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_abastecimentos.*
+import kotlinx.android.synthetic.main.fragment_seguros.*
+import kotlinx.android.synthetic.main.fragment_viagens.*
+import pt.ulp.se201920_g01_20091502_21704830.Adapters.adapter_manutencao
+import pt.ulp.se201920_g01_20091502_21704830.Adapters.adapter_seguros
+import pt.ulp.se201920_g01_20091502_21704830.Adapters.adapter_viagens
+import pt.ulp.se201920_g01_20091502_21704830.Dataclasses.dataclass_manutencao
+import pt.ulp.se201920_g01_20091502_21704830.Dataclasses.dataclass_seguros
+import pt.ulp.se201920_g01_20091502_21704830.Dataclasses.dataclass_viagens
 import pt.ulp.se201920_g01_20091502_21704830.InserirSegurosActivity
 import pt.ulp.se201920_g01_20091502_21704830.R
 
@@ -19,26 +29,11 @@ import pt.ulp.se201920_g01_20091502_21704830.R
  */
 class SegurosFragment : Fragment() {
 
-    //private lateinit var Dataset:Array<>
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val viewF: View = inflater.inflate(R.layout.fragment_seguros, container, false)
 
         (activity as AppCompatActivity?)!!.supportActionBar!!.setTitle("Lista Seguro")
-
-        var preferences = this.activity!!.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
-        var qry= DatabaseHelper(this.activity!!, null).getSegGen(preferences.getString("ID", "").toString())
-        if (qry!=null && qry.getCount()>0){
-            do{
-                //Log.println(Log.ASSERT, "qry Array", qry?.getString(qry.getColumnIndex("DATA_FIM"))!!)
-
-            }while(qry!!.moveToNext())
-        }
 
         val fab: FloatingActionButton = viewF.findViewById(R.id.fab)
         fab.setOnClickListener { view ->
@@ -48,5 +43,22 @@ class SegurosFragment : Fragment() {
         return viewF
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        var seguros= emptyList<dataclass_seguros>()
+        var preferences = this.activity!!.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
+        var qry= DatabaseHelper(this.activity!!, null).getSegGen(preferences.getString("ID", "").toString())
+        if (qry!=null && qry.getCount()>0){
+            do{
+                seguros+= listOf(
+                    dataclass_seguros(qry?.getString(qry.getColumnIndex("NOME"))!!,
+                                           qry?.getString(qry.getColumnIndex("DATA_INI"))!!,
+                                           qry?.getString(qry.getColumnIndex("DATA_FIM"))!!))
+            }while(qry!!.moveToNext())
 
+            recycler_view_seguros.layoutManager = LinearLayoutManager(activity)
+            recycler_view_seguros.adapter = adapter_seguros(seguros)
+        }
+
+        super.onActivityCreated(savedInstanceState)
+    }
 }
