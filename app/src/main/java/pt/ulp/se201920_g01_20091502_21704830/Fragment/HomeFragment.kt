@@ -2,6 +2,8 @@ package pt.ulp.se201920_g01_20091502_21704830.Fragment
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,6 +61,9 @@ class HomeFragment : Fragment() {
 
         var qry= DatabaseHelper(this.activity!!, null).generalInfo(preferences.getString("ID", "").toString())
 
+        //var imgByte= qry?.getString(qry.getColumnIndex("FOTO")) as ByteArray?
+        var img= qry?.getInt(qry.getColumnIndex("FOTO"))!!
+        view.findViewById<ImageView>(R.id.Foto_Veiculo).setImageResource(img)//setImageBitmap(BitmapFactory.decodeByteArray(imgByte, 0, imgByte!!.size))
         view.findViewById<TextView>(R.id.User_Name).text=qry?.getString(qry.getColumnIndex("NOME"))!!
         view.findViewById<TextView>(R.id.User_Email).text=qry?.getString(qry.getColumnIndex("EMAIL"))!!
         view.findViewById<TextView>(R.id.Empr_Name).text=qry?.getString(qry.getColumnIndex("USERNAME"))!!

@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
             }else{
                 Log.println(Log.ASSERT,"Preferences","Error")
             }
-
+            Toast.makeText(this, "Login Succeeded", Toast.LENGTH_SHORT).show()
             intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }else if (log==0){  //LOGIN INCORRECT

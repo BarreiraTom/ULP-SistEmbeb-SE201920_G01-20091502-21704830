@@ -43,6 +43,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 "ID INTEGER PRIMARY KEY, " +
                 "USERID INTEGER, " +
                 "MATRICULA TEXT UNIQUE, " +
+                "FOTO INTEGER, " +
                 "MARCA TEXT, " +
                 "MODELO TEXT, " +
                 "ANO INT, " +
@@ -107,15 +108,15 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('tiago','Tiago Santos','tiago@teste.vski','asdfg',12313);")
         db.execSQL("INSERT INTO utilizador(USERNAME, NOME, EMAIL, PASSCODE, EMPRESA_ID) VALUES ('miguel','Miguel Pinheiro','miguel@teste.brr','zxcvbnm',12313);")
 
-        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (1, 'ad-43-12', 'Monster Truck', 'BIG', 2020);")
-        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (3, 'as-98-sd', 'renault', 'Clio', 2004);")
-        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (2, '23-tg-43', 'Carrinho de Choque', 'Smol', 1990);")
-        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, MARCA, MODELO, ANO) VALUES (4, '90-sd-as', 'KIA', 'n sei', 2009);")
+        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, FOTO, MARCA, MODELO, ANO) VALUES (1, 'AD-43-12', 2131165278, 'Monster Truck', 'BIG', 2020);")
+        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, FOTO, MARCA, MODELO, ANO) VALUES (3, 'AS-98-SD', 2131165279, 'Renault', 'Clio', 2004);")
+        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, FOTO, MARCA, MODELO, ANO) VALUES (2, '23-TG-43', 2131165277, 'Carrinho de Choque', 'Smol', 1990);")
+        db.execSQL("INSERT INTO veiculo(USERID, MATRICULA, FOTO, MARCA, MODELO, ANO) VALUES (4, '90-SD-AS', 2131165309, 'KIA', 'AIK', 2009);")
 
-        db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('seguranz', '2010-10-20', '2019-12-31', 1);")
-        db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('liberty', '2019-01-19', '2019-10-29', 2);")
+        db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('Seguranz', '2010-10-20', '2019-12-31', 1);")
+        db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('Liberty', '2019-01-19', '2019-10-29', 2);")
         db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('Mariachi', '2019-11-02', '2020-03-10', 3);")
-        db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('liberty', '2019-10-30', '2020-01-02', 2);")
+        db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('Liberty', '2019-10-30', '2020-01-02', 2);")
         db.execSQL("INSERT INTO seguro(NOME, DATA_INI, DATA_FIM, VEICULO_ID) VALUES ('Marthavil', '2019-07-07', '2019-12-20', 4);")
     }
 
@@ -203,7 +204,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     fun generalInfo(userId:String): Cursor?{
         val db = this.readableDatabase
         //var userId = PreferencesFile.getID()
-        var qry = db.rawQuery("SELECT utilizador.NOME, utilizador.EMAIL, empresa.USERNAME, veiculo.MATRICULA, veiculo.MARCA, veiculo.MODELO, veiculo.ANO, seguro.NOME as NOME_SEG, seguro.DATA_FIM from veiculo " +
+        var qry = db.rawQuery("SELECT utilizador.NOME, utilizador.EMAIL, empresa.USERNAME, veiculo.MATRICULA, veiculo.MARCA, veiculo.FOTO, veiculo.MODELO, veiculo.ANO, seguro.NOME as NOME_SEG, seguro.DATA_FIM from veiculo " +
                                       "LEFT JOIN utilizador ON utilizador.ID=veiculo.USERID " +
                                       "LEFT JOIN empresa ON utilizador.EMPRESA_ID=empresa.ID " +
                                       "LEFT JOIN seguro ON veiculo.ID=seguro.VEICULO_ID " +
@@ -325,7 +326,7 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
 
     companion object {
-        const val DATABASE_VERSION = 7
+        const val DATABASE_VERSION = 15
         const val DATABASE_NAME = "frotaBD.db"
     }
 }
