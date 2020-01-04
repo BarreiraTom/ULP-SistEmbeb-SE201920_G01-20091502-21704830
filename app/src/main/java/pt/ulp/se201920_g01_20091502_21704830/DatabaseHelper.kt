@@ -315,6 +315,14 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         db.close()
     }
 
+    fun getNotifSeg(userId: String):Cursor?{
+
+        val db= this.readableDatabase
+        var qry = db.rawQuery("SELECT seguro.NOME, seguro.DATA_FIM FROM seguro, veiculo WHERE DATA_FIM>=(SELECT CURRENT_DATE) AND DATA_FIM<=(SELECT date((SELECT CURRENT_DATE),'+1 month')) AND seguro.VEICULO_ID=veiculo.ID and veiculo.USERID=$userId",null)
+        qry!!.moveToFirst()
+        return qry
+    }
+
 
     companion object {
         const val DATABASE_VERSION = 7

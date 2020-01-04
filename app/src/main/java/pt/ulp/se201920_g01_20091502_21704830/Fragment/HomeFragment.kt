@@ -11,7 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_home.*
+import pt.ulp.se201920_g01_20091502_21704830.Adapters.adapter_notificacoes
 import pt.ulp.se201920_g01_20091502_21704830.DatabaseHelper
+import pt.ulp.se201920_g01_20091502_21704830.Dataclasses.dataclass_notificacao
+import pt.ulp.se201920_g01_20091502_21704830.Dataclasses.dataclass_seguros
 
 import pt.ulp.se201920_g01_20091502_21704830.R
 import java.util.function.LongFunction
@@ -63,5 +68,22 @@ class HomeFragment : Fragment() {
         view.findViewById<TextView>(R.id.Seguro_Veic).text="${qry?.getString(qry.getColumnIndex("DATA_FIM"))!!} - ${qry?.getString(qry.getColumnIndex("NOME_SEG"))!!}"
 
         return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+
+        var mensagens= emptyList<dataclass_notificacao>()
+        var preferences = this.activity!!.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
+        var qry= DatabaseHelper(this.activity!!, null).getNotifSeg(preferences.getString("ID", "").toString())
+        if (qry!=null && qry.getCount()>0) {
+            do {
+                mensagens += listOf(dataclass_notificacao("O seu seguro com '" + qry?.getString(qry.getColumnIndex("NOME"))!!+ "' acaba a",
+                                                               qry?.getString(qry.getColumnIndex("DATA_FIM"))!!))
+            } while (qry!!.moveToNext())
+
+            recycler_view_home_notifs.layoutManager = LinearLayoutManager(activity)
+            recycler_view_home_notifs.adapter = adapter_notificacoes(mensagens)
+        }
+        super.onActivityCreated(savedInstanceState)
     }
 }
