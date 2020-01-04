@@ -245,6 +245,41 @@ class DatabaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return qry
     }
 
+    fun insrtAbast(userId:String, data:String, local:String, quant:String, valor_gast:String){
+        val db= this.readableDatabase
+        var qry= db.rawQuery("SELECT veiculo.ID FROM veiculo WHERE veiculo.USERID=$userId",null)
+        qry!!.moveToFirst()
+
+        var veicID=qry?.getString(qry.getColumnIndex("ID"))!!
+
+        val values = ContentValues()
+        values.put("VEICULO_ID",veicID)
+        values.put("DATA_A",data)
+        values.put("LOCAL",local)
+        values.put("QUANT",quant)
+        values.put("VALOR_GAST",valor_gast)
+        var result= db.insert("abast", null, values)
+        Log.println(Log.ASSERT, "resultInsert","$result")
+        db.close()
+    }
+
+    fun insrtViag(userId:String, origem:String, destino:String, data:String){
+        val db= this.readableDatabase
+        var qry= db.rawQuery("SELECT veiculo.ID FROM veiculo WHERE veiculo.USERID=$userId",null)
+        qry!!.moveToFirst()
+
+        var veicID=qry?.getString(qry.getColumnIndex("ID"))!!
+
+        val values = ContentValues()
+        values.put("VEICULO_ID",veicID)
+        values.put("LOCAL_INI",origem)
+        values.put("LOCAL_DEST",destino)
+        values.put("DATA_D",data)
+        var result= db.insert("viagem_realizada", null, values)
+        Log.println(Log.ASSERT, "resultInsert","$result")
+        db.close()
+    }
+
 
 //    fun insertRow(name: String, age:String, email: String) {
 //        val values = ContentValues()

@@ -46,10 +46,12 @@ class ManutencaoFragment : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.setTitle("Lista Manutenções")
 
         var preferences = this.activity!!.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
-        var qry= DatabaseHelper(this.activity!!, null).getSegGen(preferences.getString("ID", "").toString())
-        do{
-            Log.println(Log.ASSERT, "qry Array", qry?.getString(qry.getColumnIndex("DATA_FIM"))!!)
-        }while(qry!!.moveToNext())
+        var qry= DatabaseHelper(this.activity!!, null).getManutGen(preferences.getString("ID", "").toString())
+        if (qry!=null && qry.getCount()>0){
+            do{
+                Log.println(Log.ASSERT, "qry Array", qry?.getString(qry.getColumnIndex("DATA_D"))!!)
+            }while(qry!!.moveToNext())
+        }
 
         val fab: FloatingActionButton = viewF.findViewById(R.id.fab)
         fab.setOnClickListener { view ->

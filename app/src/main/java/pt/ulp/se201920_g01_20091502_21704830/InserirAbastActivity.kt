@@ -1,11 +1,12 @@
 package pt.ulp.se201920_g01_20091502_21704830
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.WindowManager
+import android.view.*
+import android.widget.EditText
+import pt.ulp.se201920_g01_20091502_21704830.Fragment.AbastecimentosFragment
 
 class InserirAbastActivity : AppCompatActivity() {
 
@@ -34,6 +35,17 @@ class InserirAbastActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun insertAbastData(view: View?){
+        var preferences = this.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
+        var sentData= DatabaseHelper(this,null).insrtAbast(preferences.getString("ID", "").toString(),
+                                                           findViewById<EditText>(R.id.ins_abast_data).text.toString(),
+                                                           findViewById<EditText>(R.id.ins_abast_local).text.toString(),
+                                                           findViewById<EditText>(R.id.ins_abast_quant).text.toString(),
+                                                           findViewById<EditText>(R.id.ins_abast_val_gast).text.toString())
+        val intent = Intent(this, AbastecimentosFragment::class.java)
+        startActivity(intent)
     }
 
 }

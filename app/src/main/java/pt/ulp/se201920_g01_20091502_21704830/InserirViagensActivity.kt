@@ -1,11 +1,12 @@
 package pt.ulp.se201920_g01_20091502_21704830
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.WindowManager
+import android.view.*
+import android.widget.EditText
+import pt.ulp.se201920_g01_20091502_21704830.Fragment.AbastecimentosFragment
 
 class InserirViagensActivity : AppCompatActivity() {
 
@@ -34,6 +35,16 @@ class InserirViagensActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun insertViagData(view: View?){
+        var preferences = this.getSharedPreferences("GrupoIPreferences", Context.MODE_PRIVATE)
+        var sentData= DatabaseHelper(this,null).insrtViag(preferences.getString("ID", "").toString(),
+                                                           findViewById<EditText>(R.id.ins_viag_origem).text.toString(),
+                                                           findViewById<EditText>(R.id.ins_viag_dest).text.toString(),
+                                                           findViewById<EditText>(R.id.ins_viag_data).text.toString())
+        val intent = Intent(this, AbastecimentosFragment::class.java)
+        startActivity(intent)
     }
 
 }
